@@ -1,0 +1,63 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build output
+dist/
+build/
+out/
+
+# Dependency directories
+jspm_packages/
+bower_components/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+coverage/
+
+# Temporary files
+*.tmp
+*.swp
+*.lock
+*.pid
+*.seed
+*.pid.lock
+
+# Git-specific files
+*.orig
+
+# React-specific files
+*.cache/
+*.eslintcache
+
+# Ignore backend-specific files
+backend/node_modules/
+backend/dist/
+backend/.env
+
+# Ignore frontend-specific files
+frontend/node_modules/
+frontend/build/
+frontend/.env

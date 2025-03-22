@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { Gamepad2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+// Predefined admin credentials
+const ADMIN_CREDENTIALS = {
+  email: 'admin@yono.com',
+  password: 'admin123'
+};
+
 function Login() {
-  const [state, setState] = useState<'Sign Up' | 'Login'>('Login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
@@ -15,27 +19,11 @@ function Login() {
     event.preventDefault();
     setErrorMessage('');
 
-    if (state === 'Sign Up') {
-      // Simulate sign-up by saving user data to local storage
-      const user = { name, email, password };
-      localStorage.setItem('user', JSON.stringify(user));
+    if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
       localStorage.setItem('isAuthenticated', 'true');
-      alert('Sign up successful! Please log in.');
-      setState('Login'); // Switch to login after sign-up
+      navigate('/'); // Redirect to home
     } else {
-      // Simulate login by checking local storage
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        const user = JSON.parse(storedUser);
-        if (user.email === email && user.password === password) {
-          localStorage.setItem('isAuthenticated', 'true');
-          navigate('/'); // Redirect to home
-        } else {
-          setErrorMessage('Invalid email or password.');
-        }
-      } else {
-        setErrorMessage('No user found. Please sign up.');
-      }
+      setErrorMessage('Invalid email or password.');
     }
   };
 
@@ -58,30 +46,15 @@ function Login() {
         </h1>
       </div>
 
-      {/* Login/Sign-Up Form */}
+      {/* Login Form */}
       <div className="w-full max-w-md">
         <form 
           onSubmit={handleSubmit} 
           className="bg-white bg-opacity-10 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white border-opacity-20"
         >
           <h2 className="text-2xl font-bold mb-6 text-white text-center">
-            {state === 'Sign Up' ? 'Create Account' : 'Welcome Back'}
+            Admin Login
           </h2>
-          
-          {state === 'Sign Up' && (
-            <div className="mb-6">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-200 mb-2">Full Name</label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 bg-white bg-opacity-10 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter your name"
-                required
-              />
-            </div>
-          )}
           
           <div className="mb-6">
             <label htmlFor="email" className="block text-sm font-medium text-gray-200 mb-2">Email Address</label>
@@ -129,33 +102,9 @@ function Login() {
             type="submit"
             className="w-full py-3 px-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium rounded-lg hover:from-blue-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-200"
           >
-            {state === 'Sign Up' ? 'Create Account' : 'Sign In'}
+            Sign In
           </button>
         </form>
-
-        <p className="text-center mt-6 text-gray-400">
-          {state === 'Sign Up' ? (
-            <>
-              Already have an account?{' '}
-              <button 
-                onClick={() => setState('Login')}
-                className="text-blue-400 hover:text-blue-300 font-medium focus:outline-none"
-              >
-                Sign in
-              </button>
-            </>
-          ) : (
-            <>
-              Don't have an account?{' '}
-              <button
-                onClick={() => setState('Sign Up')}
-                className="text-blue-400 hover:text-blue-300 font-medium focus:outline-none"
-              >
-                Sign up
-              </button>
-            </>
-          )}
-        </p>
       </div>
     </div>
   );

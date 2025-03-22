@@ -96,7 +96,7 @@ const Games: React.FC = () => {
         {games.map((game) => (
           <div 
             key={game._id} 
-            className="flex flex-row items-center p-4 sm:p-6 rounded-[24px] sm:rounded-[32px] w-full" 
+            className="flex flex-col sm:flex-row items-center p-4 sm:p-6 rounded-[24px] sm:rounded-[32px] w-full" 
             style={{ 
               background: 'linear-gradient(180deg, #000C34 0%, #000000 100%)',
               boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.25)',
@@ -107,7 +107,7 @@ const Games: React.FC = () => {
             <img 
               src={`${BACKEND_URL}${game.imageUrl}`} 
               alt={game.name} 
-              className="w-20 h-20 sm:w-24 sm:h-24 object-contain mr-4 sm:mr-6"
+              className="w-20 h-20 sm:w-24 sm:h-24 object-contain mr-0 sm:mr-6 mb-4 sm:mb-0"
               onError={(e) => {
                 console.error('Error loading image:', game.imageUrl);
                 e.currentTarget.src = 'https://via.placeholder.com/128x128?text=No+Image';
@@ -115,8 +115,15 @@ const Games: React.FC = () => {
             />
 
             {/* Game Info */}
-            <div className="flex-1 flex flex-col justify-center min-w-0">
-              <h3 className="text-white text-xl sm:text-2xl font-bold mb-2 sm:mb-3 truncate">{game.name}</h3>
+            <div className="flex-1 flex flex-col items-center sm:items-start justify-center min-w-0">
+              <h3
+                className="text-[#e83535] text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-center sm:text-left truncate"
+                style={{
+                  textShadow: '0px 4px 8px rgba(174, 255, 0, 0.5)',
+                }}
+              >
+                {game.name}
+              </h3>
               
               {/* Bonus and Withdrawal Info */}
               <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
@@ -138,7 +145,7 @@ const Games: React.FC = () => {
 
             {/* Download Button */}
             <button
-              className="ml-4 sm:ml-6 w-[100px] sm:w-[141px] h-[36px] sm:h-[42px] flex-shrink-0 flex items-center justify-center"
+              className="mt-4 sm:mt-0 ml-0 sm:ml-6 w-[100px] sm:w-[141px] h-[36px] sm:h-[42px] flex-shrink-0 flex items-center justify-center"
               style={{
                 background: '#AEFF00',
                 borderRadius: '10px',

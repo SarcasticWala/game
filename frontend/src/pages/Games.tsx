@@ -118,9 +118,6 @@ const Games: React.FC = () => {
             <div className="flex-1 flex flex-col items-center sm:items-start justify-center min-w-0">
               <h3
                 className="text-[#e83535] text-xl sm:text-2xl font-bold mb-2 sm:mb-3 text-center sm:text-left truncate"
-                style={{
-                  textShadow: '0px 4px 8px rgba(174, 255, 0, 0.5)',
-                }}
               >
                 {game.name}
               </h3>

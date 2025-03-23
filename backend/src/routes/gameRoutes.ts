@@ -10,6 +10,8 @@ router.get('/game/:id', (req, res) => {
   // Example: Serve a static HTML file for the landing page
   const landingPagePath = path.join(__dirname, '..', 'public', 'landingPages', `${id}.html`);
   console.log('Serving landing page for game ID:', id); // Debugging log
+  console.log('Landing page path:', landingPagePath); // Debugging log
+
   res.sendFile(landingPagePath, (err) => {
     if (err) {
       console.error(`Error serving landing page for game ${id}:`, err);

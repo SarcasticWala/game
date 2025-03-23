@@ -47,7 +47,6 @@ const Games: React.FC = () => {
 
   const handleGameClick = (landingPageUrl: string) => {
     if (landingPageUrl) {
-      // Convert relative URLs to absolute URLs
       const url = landingPageUrl.startsWith('/game/')
         ? `${window.location.origin}${landingPageUrl}`
         : landingPageUrl;
@@ -125,11 +124,12 @@ const Games: React.FC = () => {
           >
             {/* Game Image */}
             <img 
-              src={`${BACKEND_URL}${game.imageUrl}`} 
+              src={game.imageUrl.startsWith('http') ? game.imageUrl : `${BACKEND_URL}${game.imageUrl}`} // Handle both absolute and relative URLs
               alt={game.name} 
               className="w-20 h-20 sm:w-24 sm:h-24 object-contain mr-0 sm:mr-6 mb-4 sm:mb-0"
               onError={(e) => {
-                e.currentTarget.src = 'https://via.placeholder.com/128x128?text=No+Image';
+                console.error('Error loading image:', game.imageUrl); // Debugging log
+                e.currentTarget.src = 'https://via.placeholder.com/128x128?text=No+Image'; // Fallback image
               }}
             />
 

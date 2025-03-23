@@ -176,7 +176,7 @@ const GameLanding: React.FC = () => {
             <div className="bg-purple-600/90 backdrop-blur-sm rounded-2xl p-6 w-full max-w-md">
               <div className="flex items-center mb-4">
                 <img 
-                  src={`${BACKEND_URL}${game.imageUrl}`} // Prepend BACKEND_URL to the imageUrl
+                  src={game.imageUrl.startsWith('http') ? game.imageUrl : `${BACKEND_URL}${game.imageUrl}`} // Handle both absolute and relative URLs
                   alt={game.name}
                   className="w-16 h-16 object-contain rounded-lg"
                   onError={(e) => {

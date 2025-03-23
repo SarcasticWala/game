@@ -1,14 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import multer from 'multer';
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import path from 'path';
-import { v4 as uuidv4 } from 'uuid';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Game from './models/Game';
-import fs from 'fs';
 import gameRoutes from './routes/gameRoutes'; // Correctly import the gameRoutes
 
+// Load environment variables
 dotenv.config();
 
 const app = express();
@@ -17,26 +18,35 @@ const port = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads')); // Ensure this middleware is present
 app.use('/public', express.static(path.join(__dirname, 'public'))); // Serve static files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve static files from the uploads directory
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/game-management')
-  .then(() => console.log('Connected to MongoDB'))
+console.log('Connecting to MongoDB with URI:', process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI || '')
+  .then(() => console.log('Connected to MongoDB Atlas'))
   .catch((err) => {
-    console.error('MongoDB connection error:', err);
-    process.exit(1); // Exit if MongoDB connection fails
+    console.error('MongoDB connection error:', err.message);
+    process.exit(1);
   });
 
-// Multer configuration for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+// Cloudinary configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME || '',
+  api_key: process.env.CLOUDINARY_API_KEY || '',
+  api_secret: process.env.CLOUDINARY_API_SECRET || '',
+});
+
+// Multer configuration for Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: process.env.CLOUDINARY_FOLDER || 'uploads', // Explicitly define the folder parameter
+    allowed_formats: ['jpg', 'png', 'jpeg'], // Allowed file formats
+  } as {
+    folder: string; // Explicitly define the folder type
+    allowed_formats: string[];
   },
-  filename: (req, file, cb) => {
-    const uniqueName = `${uuidv4()}${path.extname(file.originalname)}`;
-    cb(null, uniqueName);
-  }
 });
 
 const upload = multer({ storage });
@@ -72,8 +82,9 @@ app.post('/api/games', upload.single('image'), async (req, res) => {
       return res.status(400).json({ message: 'Sign up bonus and minimum withdrawal are required' });
     }
 
-    const imageUrl = `/uploads/${req.file.filename}`;
-    const landingPageUrl = `/game/${uuidv4()}`;
+    console.log('Uploaded file:', req.file); // Debugging log
+    const imageUrl = req.file.path; // Cloudinary URL
+    const landingPageUrl = `/game/${req.file.filename.replace('uploads/', '')}`; // Remove 'uploads/' prefix
 
     console.log('Creating game with data:', {
       name,
@@ -153,11 +164,6 @@ app.delete('/api/games/:id', async (req, res) => {
     if (!game) {
       return res.status(404).json({ message: 'Game not found' });
     }
-    // Delete the image file
-    const imagePath = path.join(__dirname, '..', game.imageUrl);
-    if (fs.existsSync(imagePath)) {
-      fs.unlinkSync(imagePath);
-    }
     res.json({ message: 'Game deleted successfully' });
   } catch (error: any) {
     console.error('Error deleting game:', error);
@@ -189,12 +195,6 @@ app.put('/api/games/:id/name', async (req, res) => {
     res.status(500).json({ message: 'Error updating game name', error: error.message });
   }
 });
-
-// Create uploads directory if it doesn't exist
-if (!fs.existsSync('uploads')) {
-  fs.mkdirSync('uploads');
-  console.log('Created uploads directory');
-}
 
 // Use the game routes
 app.use('/', gameRoutes);

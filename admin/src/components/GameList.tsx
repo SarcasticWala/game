@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 interface Game {
   _id: string;
   name: string;
+  imageUrl: string; // Add imageUrl to the Game interface
   landingPageUrl: string;
 }
 
@@ -16,7 +17,7 @@ const GameList: React.FC<GameListProps> = ({ games, onGameAdded }) => {
 
   const handleAddGame = async (gameData: FormData) => {
     try {
-      const response = await fetch('http://localhost:5000/api/games', {
+      const response = await fetch(`/api/games`, {
         method: 'POST',
         body: gameData,
       });
@@ -44,11 +45,22 @@ const GameList: React.FC<GameListProps> = ({ games, onGameAdded }) => {
       )}
       {games.map((game) => (
         <div key={game._id} className="flex items-center justify-between p-4 border-b border-gray-200">
+          {/* Game Image */}
+          <img
+            src={game.imageUrl} // Directly use the Cloudinary URL
+            alt={game.name}
+            className="w-16 h-16 object-contain rounded-lg mr-4"
+            onError={(e) => {
+              console.error('Error loading image:', game.imageUrl); // Debugging log
+              e.currentTarget.src = '/uploads/default-placeholder.png'; // Fallback image
+            }}
+          />
+
+          {/* Game Info */}
           <div>
             <h3 className="text-lg font-bold">{game.name}</h3>
             <p className="text-sm text-gray-500">Landing Page: {game.landingPageUrl || 'Not available'}</p>
           </div>
-          {/* Removed the Preview button */}
         </div>
       ))}
     </div>

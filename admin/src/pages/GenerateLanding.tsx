@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Coins as Coin, Check, Copy, Download } from 'lucide-react';
+import { ArrowLeft, Coins as Check } from 'lucide-react';
 
 interface Game {
   _id: string;
@@ -90,28 +90,28 @@ export const GenerateLanding: React.FC = () => {
     }
   };
 
-  const handleCopy = async () => {
-    if (!game) return;
+  // const handleCopy = async () => {
+  //   if (!game) return;
     
-    const landingPageUrl = `${FRONTEND_URL}/game/${game._id}`;
-    try {
-      await navigator.clipboard.writeText(landingPageUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      setError('Failed to copy link. Please try again.');
-    }
-  };
+  //   const landingPageUrl = `${FRONTEND_URL}/game/${game._id}`;
+  //   try {
+  //     await navigator.clipboard.writeText(landingPageUrl);
+  //     setCopied(true);
+  //     setTimeout(() => setCopied(false), 2000);
+  //   } catch (err) {
+  //     setError('Failed to copy link. Please try again.');
+  //   }
+  // };
 
-  const handlePreviewLanding = () => {
-    if (!game?._id) {
-      setError('Game information not available');
-      return;
-    }
-    const previewUrl = `${FRONTEND_URL}/game/${game._id}`;
-    console.log('Opening preview URL:', previewUrl); // Debug log
-    window.open(previewUrl, '_blank');
-  };
+  // const handlePreviewLanding = () => {
+  //   if (!game?._id) {
+  //     setError('Game information not available');
+  //     return;
+  //   }
+  //   const previewUrl = `${FRONTEND_URL}/game/${game._id}`;
+  //   console.log('Opening preview URL:', previewUrl); // Debug log
+  //   window.open(previewUrl, '_blank');
+  // };
 
   if (isSuccess) {
     return (

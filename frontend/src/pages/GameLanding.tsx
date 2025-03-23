@@ -176,12 +176,12 @@ const GameLanding: React.FC = () => {
             <div className="bg-purple-600/90 backdrop-blur-sm rounded-2xl p-6 w-full max-w-md">
               <div className="flex items-center mb-4">
                 <img 
-                  src={game.imageUrl}
+                  src={`${BACKEND_URL}${game.imageUrl}`} // Prepend BACKEND_URL to the imageUrl
                   alt={game.name}
                   className="w-16 h-16 object-contain rounded-lg"
                   onError={(e) => {
                     console.error('Error loading image:', game.imageUrl);
-                    e.currentTarget.src = 'https://via.placeholder.com/128x128?text=No+Image';
+                    e.currentTarget.src = `${BACKEND_URL}/uploads/default-placeholder.png`; // Use a local fallback image
                   }}
                 />
                 <div className="ml-4">

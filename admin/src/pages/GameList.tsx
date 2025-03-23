@@ -117,17 +117,17 @@ export const GameList: React.FC = () => {
   };
 
   if (isLoading) {
-    return (
-      <div className="max-w-2xl mx-auto">
+  return (
+    <div className="max-w-2xl mx-auto">
         <div className="flex flex-col items-center justify-between mb-12">
           <div className="flex items-center gap-4 w-full">
-            <button
-              onClick={() => navigate('/')}
-              className="text-white flex items-center gap-2 hover:text-gray-200"
-            >
-              <ArrowLeft size={24} />
-              Back
-            </button>
+        <button
+          onClick={() => navigate('/')}
+          className="text-white flex items-center gap-2 hover:text-gray-200"
+        >
+          <ArrowLeft size={24} />
+          Back
+        </button>
             <div className="flex-1 text-center">
               <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text">
                 Game Collection
@@ -228,8 +228,8 @@ export const GameList: React.FC = () => {
                 ) : (
                   <span className="text-white font-medium text-sm sm:text-base truncate">{game.name}</span>
                 )}
-              </div>
-              
+            </div>
+            
               <div className="flex gap-1 sm:gap-2 flex-shrink-0">
                 {editingGame === game._id ? (
                   <>
@@ -256,7 +256,7 @@ export const GameList: React.FC = () => {
                   </>
                 ) : (
                   <>
-                    <button 
+              <button 
                       onClick={(e) => {
                         e.stopPropagation();
                         startEditing(game);
@@ -265,8 +265,8 @@ export const GameList: React.FC = () => {
                       title="Edit name"
                     >
                       <Pencil className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    </button>
-                    <button 
+              </button>
+              <button 
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(`/generate-landing/${game._id}`);
@@ -275,7 +275,7 @@ export const GameList: React.FC = () => {
                       title="Set download link"
                     >
                       <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    </button>
+              </button>
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();
@@ -291,7 +291,7 @@ export const GameList: React.FC = () => {
               </div>
             </div>
           ))}
-        </div>
+          </div>
       </div>
     </div>
   );

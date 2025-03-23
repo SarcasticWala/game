@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Game from './models/Game';
 import fs from 'fs';
+import gameRoutes from './routes/gameRoutes'; // Correctly import the gameRoutes
 
 dotenv.config();
 
@@ -17,6 +18,7 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
+app.use('/public', express.static(path.join(__dirname, 'public'))); // Serve static files
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/game-management')
@@ -61,7 +63,7 @@ app.post('/api/games', upload.single('image'), async (req, res) => {
       return res.status(400).json({ message: 'No image file provided' });
     }
 
-    const { name, signUpBonus, minWithdraw } = req.body;
+    const { name, signUpBonus, minWithdraw, gameUrl } = req.body; // Include gameUrl
     if (!name) {
       return res.status(400).json({ message: 'Name is required' });
     }
@@ -77,6 +79,7 @@ app.post('/api/games', upload.single('image'), async (req, res) => {
       name,
       imageUrl,
       landingPageUrl,
+      gameUrl, // Include gameUrl
       signUpBonus,
       minWithdraw
     });
@@ -84,7 +87,7 @@ app.post('/api/games', upload.single('image'), async (req, res) => {
     const game = new Game({
       name,
       imageUrl,
-      gameUrl: '',
+      gameUrl, // Save gameUrl
       landingPageUrl,
       signUpBonus: parseInt(signUpBonus),
       minWithdraw: parseInt(minWithdraw)
@@ -108,8 +111,11 @@ app.post('/api/games', upload.single('image'), async (req, res) => {
 // Get game by landing page URL
 app.get('/api/games/:landingPageUrl', async (req, res) => {
   try {
-    const game = await Game.findOne({ landingPageUrl: req.params.landingPageUrl });
+    const landingPageUrl = `/game/${req.params.landingPageUrl}`; // Prepend '/game/' prefix
+    console.log('Querying game with landingPageUrl:', landingPageUrl); // Debugging log
+    const game = await Game.findOne({ landingPageUrl });
     if (!game) {
+      console.log('Game not found for landingPageUrl:', landingPageUrl); // Debugging log
       return res.status(404).json({ message: 'Game not found' });
     }
     res.json(game);
@@ -190,6 +196,9 @@ if (!fs.existsSync('uploads')) {
   console.log('Created uploads directory');
 }
 
+// Use the game routes
+app.use('/', gameRoutes);
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
-}); 
+});

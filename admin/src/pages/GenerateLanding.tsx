@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Coins as Coin, Check, Copy } from 'lucide-react';
+import { ArrowLeft, Coins as Coin, Check, Copy, Download } from 'lucide-react';
 
 interface Game {
   _id: string;
@@ -9,6 +9,9 @@ interface Game {
   gameUrl: string;
   landingPageUrl: string;
 }
+
+// Update to use Vite's development server URL
+const FRONTEND_URL = 'http://127.0.0.1:5173';
 
 export const GenerateLanding: React.FC = () => {
   const navigate = useNavigate();
@@ -28,7 +31,13 @@ export const GenerateLanding: React.FC = () => {
           throw new Error('Failed to fetch game');
         }
         const data = await response.json();
+        console.log('Game data in admin:', data);
+        console.log('Image URL in admin:', data.imageUrl);
         setGame(data);
+        // If game has a download link already, populate it
+        if (data.gameUrl) {
+          setDownloadLink(data.gameUrl);
+        }
       } catch (err) {
         setError('Failed to load game. Please try again.');
       }
@@ -40,7 +49,11 @@ export const GenerateLanding: React.FC = () => {
       // If no gameId, try to get from localStorage (for new games)
       const currentGame = localStorage.getItem('currentGame');
       if (currentGame) {
-        setGame(JSON.parse(currentGame));
+        const parsedGame = JSON.parse(currentGame);
+        setGame(parsedGame);
+        if (parsedGame.gameUrl) {
+          setDownloadLink(parsedGame.gameUrl);
+        }
       }
     }
   }, [gameId]);
@@ -80,7 +93,7 @@ export const GenerateLanding: React.FC = () => {
   const handleCopy = async () => {
     if (!game) return;
     
-    const landingPageUrl = `http://localhost:5000${game.landingPageUrl}`;
+    const landingPageUrl = `${FRONTEND_URL}/game/${game._id}`;
     try {
       await navigator.clipboard.writeText(landingPageUrl);
       setCopied(true);
@@ -88,6 +101,16 @@ export const GenerateLanding: React.FC = () => {
     } catch (err) {
       setError('Failed to copy link. Please try again.');
     }
+  };
+
+  const handlePreviewLanding = () => {
+    if (!game?._id) {
+      setError('Game information not available');
+      return;
+    }
+    const previewUrl = `${FRONTEND_URL}/game/${game._id}`;
+    console.log('Opening preview URL:', previewUrl); // Debug log
+    window.open(previewUrl, '_blank');
   };
 
   if (isSuccess) {
@@ -106,6 +129,14 @@ export const GenerateLanding: React.FC = () => {
           >
             {copied ? 'Copied!' : 'Copy the new landing page link'}
             <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
+
+          <button
+            onClick={handlePreviewLanding}
+            className="w-full py-3 sm:py-4 px-4 bg-gradient-to-r from-blue-400 to-blue-500 text-white rounded-xl text-base sm:text-lg font-semibold transition-all transform hover:scale-105 hover:from-blue-500 hover:to-blue-600 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-purple-900"
+          >
+            Preview Landing Page
+            <Download className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
       </div>
@@ -129,32 +160,40 @@ export const GenerateLanding: React.FC = () => {
           <div className="w-[60px] sm:w-[88px]"></div>
         </div>
 
-        <div className="flex flex-col items-center gap-6 sm:gap-8">
-          <div className="text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Set Download Link</h2>
-            <p className="text-gray-300 text-sm sm:text-base">Add the game download URL to complete setup</p>
-          </div>
-
-          {error && (
-            <p className="text-red-500 text-sm sm:text-base">{error}</p>
-          )}
-
-          <input
-            type="text"
-            value={downloadLink}
-            onChange={(e) => setDownloadLink(e.target.value)}
-            placeholder="Paste game download link here..."
-            className="w-full px-4 py-3 rounded-lg bg-white/5 backdrop-blur-sm border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm sm:text-base"
-          />
-
-          <button
-            onClick={handleSubmit}
-            disabled={isLoading}
-            className="w-full py-3 sm:py-4 px-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white rounded-xl text-base sm:text-lg font-semibold transition-all transform hover:scale-105 hover:from-yellow-500 hover:to-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-purple-900"
-          >
-            {isLoading ? 'Updating...' : 'Update game download link'}
-          </button>
+        <div className="text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">Set Download Link</h2>
+          <p className="text-gray-300 text-sm sm:text-base mb-12">Add the game download URL to complete setup</p>
         </div>
+
+        {error && (
+          <p className="text-red-500 text-sm sm:text-base mb-4">{error}</p>
+        )}
+
+        <input
+          type="text"
+          value={downloadLink}
+          onChange={(e) => setDownloadLink(e.target.value)}
+          placeholder="Paste game download link here..."
+          className="w-full px-4 py-3 rounded-lg bg-white/5 backdrop-blur-sm border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm sm:text-base mb-6"
+        />
+
+        <button
+          onClick={handleSubmit}
+          disabled={isLoading}
+          className="w-full py-3 sm:py-4 px-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white rounded-xl text-base sm:text-lg font-semibold transition-all transform hover:scale-105 hover:from-yellow-500 hover:to-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-purple-900 mb-4"
+        >
+          {isLoading ? 'Updating...' : 'Update game download link'}
+        </button>
+
+        {game && (
+          <button
+            onClick={handlePreviewLanding}
+            className="w-full py-3 sm:py-4 px-4 bg-gradient-to-r from-blue-400 to-blue-500 text-white rounded-xl text-base sm:text-lg font-semibold transition-all transform hover:scale-105 hover:from-blue-500 hover:to-blue-600 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-purple-900"
+          >
+            Preview Landing Page
+            <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
+        )}
       </div>
     </div>
   );

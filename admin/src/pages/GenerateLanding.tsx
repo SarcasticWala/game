@@ -122,22 +122,30 @@ export const GenerateLanding: React.FC = () => {
           </div>
           
           <h2 className="text-2xl sm:text-3xl font-bold text-white">Successful</h2>
-          
-          <button
+          <p className="text-gray-300 text-sm sm:text-base mb-12">Game download link updated successfully</p>
+          <div>
+          <button 
+          onClick={() => navigate('/games')}
+          className="w-full py-3 sm:py-4 px-4 bg-gradient-to-r from-pink-500 to-pink-600 text-white rounded-xl text-base sm:text-lg font-semibold transition-all transform hover:scale-105 hover:from-pink-600 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-purple-900"
+        >
+          See List
+        </button>
+          </div>
+          {/* <button
             onClick={handleCopy}
             className="w-full py-3 sm:py-4 px-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white rounded-xl text-base sm:text-lg font-semibold transition-all transform hover:scale-105 hover:from-yellow-500 hover:to-yellow-600 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:ring-offset-purple-900"
           >
             {copied ? 'Copied!' : 'Copy the new landing page link'}
             <Copy className="w-4 h-4 sm:w-5 sm:h-5" />
-          </button>
+          </button> */}
 
-          <button
+          {/* <button
             onClick={handlePreviewLanding}
             className="w-full py-3 sm:py-4 px-4 bg-gradient-to-r from-blue-400 to-blue-500 text-white rounded-xl text-base sm:text-lg font-semibold transition-all transform hover:scale-105 hover:from-blue-500 hover:to-blue-600 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-purple-900"
           >
             Preview Landing Page
             <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-          </button>
+          </button> */}
         </div>
       </div>
     );
@@ -185,7 +193,7 @@ export const GenerateLanding: React.FC = () => {
           {isLoading ? 'Updating...' : 'Update game download link'}
         </button>
 
-        {game && (
+        {/* {game && (
           <button
             onClick={handlePreviewLanding}
             className="w-full py-3 sm:py-4 px-4 bg-gradient-to-r from-blue-400 to-blue-500 text-white rounded-xl text-base sm:text-lg font-semibold transition-all transform hover:scale-105 hover:from-blue-500 hover:to-blue-600 flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-purple-900"
@@ -193,7 +201,7 @@ export const GenerateLanding: React.FC = () => {
             Preview Landing Page
             <Download className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
-        )}
+        )} */}
       </div>
     </div>
   );

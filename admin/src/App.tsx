@@ -27,7 +27,7 @@ function App() {
           <Route path="games" element={<GameList />} />
           <Route path="add-game" element={<AddGame />} />
           <Route path="generate-landing" element={<GenerateLanding />} />
-          <Route path="generate-landing/:id" element={<GenerateLanding />} />
+          {/* <Route path="generate-landing/:id" element={<GenerateLanding />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>

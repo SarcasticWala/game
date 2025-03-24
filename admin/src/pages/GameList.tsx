@@ -28,7 +28,7 @@ export const GameList: React.FC = () => {
 
   const fetchGames = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKENDURL}/api/games`);
+      const response = await fetch('https://game-cnq1.vercel.app/api/games');
       if (!response.ok) {
         throw new Error('Failed to fetch games');
       }
@@ -63,7 +63,7 @@ export const GameList: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKENDURL}/api/games/${gameId}`, {
+      const response = await fetch(`https://game-cnq1.vercel.app/api/games/${gameId}`, {
         method: 'DELETE',
       });
 
@@ -92,7 +92,7 @@ export const GameList: React.FC = () => {
 
   const saveGameName = async (gameId: string) => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKENDURL}/${gameId}/name`, {
+      const response = await fetch(`https://game-cnq1.vercel.app/${gameId}/name`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

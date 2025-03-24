@@ -59,7 +59,7 @@ export const AddGame: React.FC = () => {
         console.log(pair[0], pair[1]);
       }
 
-      const response = await fetch(`${import.meta.env.VITE_BACKENDURL}/api/games`, {
+      const response = await fetch('https://game-cnq1.vercel.app/api/games', {
         method: 'POST',
         body: formData,
       });

@@ -26,7 +26,7 @@ export const GenerateLanding: React.FC = () => {
   useEffect(() => {
     const fetchGame = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_BACKENDURL}/api/games/${gameId}`);
+        const response = await fetch(`https://game-cnq1.vercel.app/api/games/${gameId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch game');
         }
@@ -68,7 +68,7 @@ export const GenerateLanding: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKENDURL}/api/games/${game?._id}`, {
+      const response = await fetch(`https://game-cnq1.vercel.app/api/games/${game?._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

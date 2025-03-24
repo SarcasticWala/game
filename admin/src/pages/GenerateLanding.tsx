@@ -26,7 +26,7 @@ export const GenerateLanding: React.FC = () => {
   useEffect(() => {
     const fetchGame = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/games/${gameId}`);
+        const response = await fetch(`${import.meta.env.VITE_BACKENDURL}/api/games/${gameId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch game');
         }
@@ -68,7 +68,7 @@ export const GenerateLanding: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/games/${game?._id}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKENDURL}/api/games/${game?._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

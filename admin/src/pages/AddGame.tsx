@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ImagePlus, ArrowLeft } from 'lucide-react';
-
+import axios from 'axios';
 // Function to generate random amounts
 const generateRandomAmounts = () => {
   // Random bonus between 100 and 1000, rounded to nearest 50
@@ -59,7 +59,7 @@ export const AddGame: React.FC = () => {
         console.log(pair[0], pair[1]);
       }
 
-      const response = await fetch('http://localhost:5000/api/games', {
+      const response = await fetch(`${import.meta.env.VITE_BACKENDURL}/api/games`, {
         method: 'POST',
         body: formData,
       });

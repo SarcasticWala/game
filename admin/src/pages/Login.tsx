@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { Gamepad2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-// Predefined admin credentials
-const ADMIN_CREDENTIALS = {
-  email: 'admin@yono.com',
-  password: 'admin123'
-};
-
+//redefined admin credentials
+const adminEmail = import.meta.env.VITE_ADMIN_EMAIL; // This is directly the email string
+const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +16,7 @@ function Login() {
     event.preventDefault();
     setErrorMessage('');
 
-    if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
+    if (email === adminEmail && password === adminPassword) { // Compare directly with the env vars
       localStorage.setItem('isAuthenticated', 'true');
       navigate('/'); // Redirect to home
     } else {

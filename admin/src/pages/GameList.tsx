@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Pencil, ArrowLeft, Download, Star, Trash2, X, Check } from 'lucide-react';
-
+import axios from 'axios';
 interface Game {
   _id: string;
   name: string;
@@ -28,7 +28,7 @@ export const GameList: React.FC = () => {
 
   const fetchGames = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/games');
+      const response = await fetch(`${import.meta.env.VITE_BACKENDURL}/api/games`);
       if (!response.ok) {
         throw new Error('Failed to fetch games');
       }
@@ -63,7 +63,7 @@ export const GameList: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/games/${gameId}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKENDURL}/api/games/${gameId}`, {
         method: 'DELETE',
       });
 
@@ -92,7 +92,7 @@ export const GameList: React.FC = () => {
 
   const saveGameName = async (gameId: string) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/games/${gameId}/name`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKENDURL}/${gameId}/name`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

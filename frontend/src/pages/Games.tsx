@@ -10,7 +10,7 @@ interface Game {
   minWithdraw: number;
 }
 
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000'; // Use environment variable
 
 const Games: React.FC = () => {
   const [games, setGames] = useState<Game[]>([]);

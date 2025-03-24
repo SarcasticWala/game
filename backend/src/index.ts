@@ -66,14 +66,13 @@ app.get('/api/games', async (req, res) => {
 // Add new game
 app.post('/api/games', upload.single('image'), async (req, res) => {
   try {
-    console.log('Received request body:', req.body);
-    console.log('Received file:', req.file);
+    console.log('Uploaded file:', req.file); // Debugging log
 
     if (!req.file) {
       return res.status(400).json({ message: 'No image file provided' });
     }
 
-    const { name, signUpBonus, minWithdraw, gameUrl } = req.body; // Include gameUrl
+    const { name, signUpBonus, minWithdraw, gameUrl } = req.body;
     if (!name) {
       return res.status(400).json({ message: 'Name is required' });
     }
@@ -82,39 +81,36 @@ app.post('/api/games', upload.single('image'), async (req, res) => {
       return res.status(400).json({ message: 'Sign up bonus and minimum withdrawal are required' });
     }
 
-    console.log('Uploaded file:', req.file); // Debugging log
-    const imageUrl = req.file.path; // Cloudinary URL
-    const landingPageUrl = `/game/${req.file.filename.replace('uploads/', '')}`; // Remove 'uploads/' prefix
+    const imageUrl = req.file.path; // Full Cloudinary URL
+    const landingPageUrl = `/game/${req.file.filename.split('/').pop()}`; // Extract filename for landing page
 
     console.log('Creating game with data:', {
       name,
       imageUrl,
       landingPageUrl,
-      gameUrl, // Include gameUrl
+      gameUrl,
       signUpBonus,
-      minWithdraw
+      minWithdraw,
     });
 
     const game = new Game({
       name,
       imageUrl,
-      gameUrl, // Save gameUrl
+      gameUrl,
       landingPageUrl,
       signUpBonus: parseInt(signUpBonus),
-      minWithdraw: parseInt(minWithdraw)
+      minWithdraw: parseInt(minWithdraw),
     });
-
-    console.log('Game object before save:', game);
 
     await game.save();
     console.log('Game saved successfully:', game);
     res.status(201).json(game);
   } catch (error: any) {
     console.error('Error creating game:', error);
-    res.status(500).json({ 
-      message: 'Error creating game', 
+    res.status(500).json({
+      message: 'Error creating game',
       error: error.message,
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
     });
   }
 });

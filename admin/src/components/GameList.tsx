@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface Game {
   _id: string;
   name: string;
-  imageUrl: string; // Add imageUrl to the Game interface
+  imageUrl: string; // Full Cloudinary URL
   landingPageUrl: string;
 }
 
@@ -14,6 +14,11 @@ interface GameListProps {
 
 const GameList: React.FC<GameListProps> = ({ games, onGameAdded }) => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [gameList, setGameList] = useState<Game[]>(games); // Maintain a local state for games
+
+  useEffect(() => {
+    setGameList(games); // Update local state when the parent updates the games prop
+  }, [games]);
 
   const handleAddGame = async (gameData: FormData) => {
     try {
@@ -26,8 +31,10 @@ const GameList: React.FC<GameListProps> = ({ games, onGameAdded }) => {
         throw new Error('Failed to add game');
       }
 
+      const newGame = await response.json(); // Get the newly added game
+      setGameList((prevGames) => [newGame, ...prevGames]); // Add the new game to the local state
       setSuccessMessage('Game added successfully!');
-      onGameAdded(); // Refresh the game list
+      onGameAdded(); // Notify the parent to refresh the game list
     } catch (error) {
       console.error('Error adding game:', error);
       setSuccessMessage('Failed to add game. Please try again.');
@@ -43,7 +50,7 @@ const GameList: React.FC<GameListProps> = ({ games, onGameAdded }) => {
           {successMessage}
         </div>
       )}
-      {games.map((game) => (
+      {gameList.map((game) => (
         <div key={game._id} className="flex items-center justify-between p-4 border-b border-gray-200">
           {/* Game Image */}
           <img

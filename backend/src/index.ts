@@ -204,6 +204,22 @@ app.put('/api/games/:id/name', async (req, res) => {
 // Use the game routes
 app.use('/', gameRoutes);
 
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  process.exit(1); // Exit the process to avoid undefined behavior
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  process.exit(1); // Exit the process to avoid undefined behavior
+});
+
+// Ensure the server starts successfully
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+}).on('error', (err) => {
+  console.error('Server failed to start:', err);
+  process.exit(1); // Exit the process if the server fails to start
 });

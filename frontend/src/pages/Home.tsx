@@ -37,9 +37,9 @@ const Home = () => {
               Get Your<br /> <span className='text-blue-400'>Game On</span>
             </h1>
             <GameCard />
-            <div className="mt-8 flex justify-center md:justify-start">
+            {/* <div className="mt-8 flex justify-center md:justify-start">
               <SeeAllGamesButton />
-            </div>
+            </div> */}
           </div>
           <div className="relative flex justify-center items-center">
             {/* Swiper Carousel */}

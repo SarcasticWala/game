@@ -16,7 +16,12 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+// filepath: d:\yono\backend\src\index.ts
+app.use(cors({
+  origin: '*', // Replace '*' with your frontend's URL in production
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 app.use('/public', express.static(path.join(__dirname, 'public'))); // Serve static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve static files from the uploads directory

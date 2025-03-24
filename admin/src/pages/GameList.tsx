@@ -15,6 +15,7 @@ interface Game {
 export const GameList: React.FC = () => {
   const navigate = useNavigate();
   const [games, setGames] = useState<Game[]>([]);
+  console.log(games);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
@@ -169,9 +170,9 @@ export const GameList: React.FC = () => {
             <div className="flex flex-col md:flex-row gap-4 sm:gap-6">
               <div className="w-full md:w-1/3">
                 <img 
-                  src={`http://localhost:5000${selectedGame.imageUrl}`}
+                  src={selectedGame.imageUrl}
                   alt={selectedGame.name} 
-                  className="w-full h-40 sm:h-48 rounded-lg object-cover"
+                  className="w-full h-40 sm:h-48 rounded-lg object-contain"
                 />
               </div>
               <div className="w-full md:w-2/3 flex flex-col justify-between">
@@ -212,7 +213,7 @@ export const GameList: React.FC = () => {
             >
               <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
                 <img 
-                  src={`http://localhost:5000${game.imageUrl}`}
+                  src={game.imageUrl}
                   alt={game.name} 
                   className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg object-cover flex-shrink-0"
                 />

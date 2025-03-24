@@ -54,15 +54,17 @@ const GameList: React.FC<GameListProps> = ({ games, onGameAdded }) => {
         <div key={game._id} className="flex items-center justify-between p-4 border-b border-gray-200">
           {/* Game Image */}
           <img
-            src={game.imageUrl} // Directly use the Cloudinary URL
+            src={game.imageUrl}
+             // Directly use the Cloudinary URL
             alt={game.name}
             className="w-16 h-16 object-contain rounded-lg mr-4"
             onError={(e) => {
               console.error('Error loading image:', game.imageUrl); // Debugging log
               e.currentTarget.src = '/uploads/default-placeholder.png'; // Fallback image
+              console.log(game.imageUrl)
             }}
           />
-
+   
           {/* Game Info */}
           <div>
             <h3 className="text-lg font-bold">{game.name}</h3>

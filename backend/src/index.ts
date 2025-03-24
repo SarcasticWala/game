@@ -204,6 +204,20 @@ app.put('/api/games/:id/name', async (req, res) => {
 // Use the game routes
 app.use('/', gameRoutes);
 
+// Serve frontend static files
+const frontendPath = path.join(__dirname, '..', '..', 'frontend', 'build'); // Adjust path to your frontend build folder
+app.use(express.static(frontendPath));
+
+// Catch-all route to serve frontend's index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
+
+// Fallback route for undefined API routes
+app.use((req, res) => {
+  res.status(404).json({ message: 'API route not found' });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

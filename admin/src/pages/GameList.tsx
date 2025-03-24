@@ -266,7 +266,7 @@ export const GameList: React.FC = () => {
                     >
                       <Pencil className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
-              <button 
+              {/* <button 
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(`/generate-landing/${game._id}`);
@@ -275,7 +275,7 @@ export const GameList: React.FC = () => {
                       title="Set download link"
                     >
                       <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </button>
+              </button> */}
                     <button 
                       onClick={(e) => {
                         e.stopPropagation();

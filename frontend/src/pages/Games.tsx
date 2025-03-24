@@ -10,13 +10,14 @@ interface Game {
   minWithdraw: number;
 }
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000'; // Use environment variable
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
+// Use environment variable
 
 const Games: React.FC = () => {
   const [games, setGames] = useState<Game[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
+  console.log(BACKEND_URL) 
   const fetchGames = async () => {
     try {
       const response = await fetch(`${BACKEND_URL}/api/games`);

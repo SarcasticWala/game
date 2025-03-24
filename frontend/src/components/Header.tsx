@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo2.jpg';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();

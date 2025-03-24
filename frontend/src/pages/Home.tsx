@@ -4,7 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import GameCard from '../components/GameCard';
 import ScrollDown from '../components/ScrollDown';
-import SeeAllGamesButton from '../components/SeeAllGamesButton';
+// import SeeAllGamesButton from '../components/SeeAllGamesButton';
 
 
 import gameCoin from '../assets/game-coin.png';
@@ -33,7 +33,7 @@ const Home = () => {
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between pt-20 md:pt-40">
           <div className="max-w-[872px] mb-8 md:mb-0">
-            <h1 className="text-4xl md:text-7xl font-bold text-white mb-8 leading-tight" style={{ height: 'auto' }}>
+            <h1 className="flex flex-col md:flex-row items-center justify-between pt-20 md:pt-40 text-4xl md:text-7xl font-bold text-white mb-8 leading-tight" style={{ height: 'auto' }}>
               Get Your<br /> <span className='text-blue-400'>Game On</span>
             </h1>
             <GameCard />

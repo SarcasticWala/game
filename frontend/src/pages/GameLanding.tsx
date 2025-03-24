@@ -13,7 +13,7 @@ interface Game {
   minWithdraw: number;
 }
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://game-cnq1.vercel.app/'; // Use environment variable
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://game-cnq1.vercel.app'; // Use environment variable
 
 const GameLanding: React.FC = () => {
   const { landingPageUrl, gameId } = useParams<{ landingPageUrl?: string; gameId?: string }>();

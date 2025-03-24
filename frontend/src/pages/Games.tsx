@@ -10,7 +10,7 @@ interface Game {
   minWithdraw: number;
 }
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://game-cnq1.vercel.app/';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || 'https://game-cnq1.vercel.app';
 // Use environment variable
 
 const Games: React.FC = () => {

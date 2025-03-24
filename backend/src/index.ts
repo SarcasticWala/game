@@ -18,7 +18,7 @@ const port = process.env.PORT || 5000;
 // Middleware
 // filepath: d:\yono\backend\src\index.ts
 app.use(cors({
-  origin: 'https://game-mmo7.vercel.app/', // Replace '*' with your frontend's URL in production
+  origin: '*', // Replace '*' with your frontend's URL in production
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));

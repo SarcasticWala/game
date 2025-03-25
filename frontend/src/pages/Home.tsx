@@ -3,9 +3,9 @@ import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import GameCard from '../components/GameCard';
-import ScrollDown from '../components/ScrollDown';
+// import ScrollDown from '../components/ScrollDown';
 // import SeeAllGamesButton from '../components/SeeAllGamesButton';
-
+import Games from './Games';
 
 import gameCoin from '../assets/game-coin.png';
 import game160248 from '../assets/Untitled-1 1.png';
@@ -74,7 +74,8 @@ const Home = () => {
         </div>
       </div>
       <div className="relative bottom-550 left-1/2 transform -translate-x-1/2">
-        <ScrollDown />
+        <Games/>
+        {/* <ScrollDown /> */}
        
        
       </div>

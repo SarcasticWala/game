@@ -14,6 +14,7 @@ import img3 from '../assets/img3.png';
 import jackpot from '../assets/jackpot.png';
 const Home = () => {
   // Array of game data
+
   const games = [
     { id: 1, image: gameCoin, name: 'Game Coin' },
     { id: 2, image: game160248, name: 'Game 160248' },
@@ -25,11 +26,13 @@ const Home = () => {
   return (
     <div
       className="min-h-screen relative overflow-hidden"
+      
       style={{
         background: 'linear-gradient(182.96deg, rgba(245, 63, 161, 0.3) -9.82%, rgba(245, 63, 161, 0) 117.56%)',
         backgroundColor: 'rgba(24, 22, 71, 1)',
       }}
     >
+        <Games/>
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between pt-20 md:pt-40">
           <div className="max-w-[872px] mb-8 md:mb-0">
@@ -74,7 +77,7 @@ const Home = () => {
         </div>
       </div>
       <div className="relative bottom-550 left-1/2 transform -translate-x-1/2">
-        <Games/>
+        
         {/* <ScrollDown /> */}
        
        
